@@ -92,7 +92,11 @@ export default function DiagnosticsPage() {
                                 <Activity className="h-4 w-4" /> Reset Analysis
                             </Button>
                         )}
+<<<<<<< Updated upstream
                         <Link href="/diagnostics/assessment">
+=======
+                        <Link href="/assessment?type=emergency">
+>>>>>>> Stashed changes
                             <Button variant="destructive" className="gap-2 animate-pulse h-12 px-6 shadow-lg shadow-red-500/20">
                                 <Phone className="h-4 w-4" />
                                 Emergency Doctor Call
