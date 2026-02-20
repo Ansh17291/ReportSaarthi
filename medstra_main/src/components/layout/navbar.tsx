@@ -51,7 +51,7 @@ export function Navbar() {
                 {View}
               </div>
               <span className="hidden font-bold text-xl sm:inline-block bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
-                Medstra
+                Saarthi
               </span>
             </Link>
           </div>
@@ -83,7 +83,7 @@ export function Navbar() {
               {View}
             </div>
             <span className="hidden font-bold text-xl sm:inline-block bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
-              Medstra
+              Saarthi
             </span>
           </Link>
 

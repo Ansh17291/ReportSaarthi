@@ -62,7 +62,7 @@ export default function ContactPage() {
                   {
                     icon: Mail,
                     label: "Email",
-                    value: "support@medstra.com",
+                    value: "support@Saarthi.com",
                   },
                   {
                     icon: Phone,

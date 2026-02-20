@@ -8,9 +8,9 @@ export default function Navbar() {
       <div className="container mx-auto px-4 py-4">
         <nav className="flex items-center justify-between">
           <Link href="/" className="font-bold text-xl">
-            Medstra 🏥
+            Saarthi 🏥
           </Link>
-          
+
           <div className="flex items-center gap-4">
             <Button variant="ghost" asChild>
               <Link href="/dashboard">Dashboard</Link>

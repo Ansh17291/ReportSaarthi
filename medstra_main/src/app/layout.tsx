@@ -9,7 +9,7 @@ import Footer from "@/components/footer";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Medstra - AI-Powered Medical Assessments",
+  title: "Saarthi - AI-Powered Medical Assessments",
   description:
     "Advanced medical assessments powered by artificial intelligence for insurance underwriting",
 };

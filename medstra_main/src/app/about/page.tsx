@@ -46,7 +46,7 @@ export default function AboutPage() {
         {/* Hero Section */}
         <FadeIn>
           <div className="text-center space-y-4">
-            <h1 className="text-4xl font-bold">About Medstra</h1>
+            <h1 className="text-4xl font-bold">About Saarthi</h1>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
               Revolutionizing medical assessments through artificial
               intelligence

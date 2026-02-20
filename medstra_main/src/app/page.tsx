@@ -157,7 +157,7 @@ const testimonials = [
   },
   {
     quote:
-      "Medstra's AI-powered assessments have significantly improved our customer experience while ensuring thorough medical evaluations.",
+      "Saarthi's AI-powered assessments have significantly improved our customer experience while ensuring thorough medical evaluations.",
     author: "Michael Chen",
     role: "Head of Innovation, Global Insurance Group",
     image: "/testi.jpg",

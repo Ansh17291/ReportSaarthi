@@ -295,7 +295,7 @@ const storeChunkOnSolana = async (chunk: Buffer, reportKeypair: Keypair, userRep
   try {
     const signature = await connection.sendRawTransaction(transaction.serialize());
     await connection.confirmTransaction(signature);
-    
+
     console.log('Chunk stored on Solana with sub-account:', subAccountKeypair.publicKey.toString());
     userReports.push(subAccountKeypair.publicKey.toString());
   } catch (error) {
@@ -310,7 +310,7 @@ const deriveSubAccountKey = (basePublicKey: PublicKey, uniqueIdentifier: string)
   const hash = createHash('sha256')
     .update(Buffer.concat([basePublicKey.toBuffer(), Buffer.from(uniqueIdentifier)]))
     .digest();
-    
+
   // Use the first 32 bytes of the hash to create a new public key
   return new PublicKey(hash);
 };
@@ -395,7 +395,7 @@ export async function POST(request: Request) {
         { status: 401 }
       );
     }
-  
+
 
     // Validate the conversation format
     if (!Array.isArray(conversation) || conversation.length === 0) {
@@ -475,7 +475,7 @@ export async function POST(request: Request) {
             try {
               await sendEmail(
                 user?.emailAddresses[0]?.emailAddress || "",
-                "Your Medical Assessment Reports - Medstra",
+                "Your Medical Assessment Reports - Saarthi",
                 emailHtml
               );
 

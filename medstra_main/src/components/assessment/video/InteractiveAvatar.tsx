@@ -106,7 +106,7 @@ const jsonDescriptor = {
 
 const API_CONFIG = {
   serverUrl: "https://api.heygen.com",
-  liveKitUrl: "wss://medstra-z001bo9s.livekit.cloud",
+  liveKitUrl: "wss://Saarthi-z001bo9s.livekit.cloud",
   liveKitApiKey: "APIFb4ihRTGinuQ",
 };
 
@@ -510,7 +510,7 @@ export default function InteractiveAvatar({
           console.log("OpenAI response:", reply);
 
           await newAvatar.speak({
-            text: "Your report has been added to the reports section under your profile, as well as it has been sent to your email and your insurance provider. Thank you for using Medstra!",
+            text: "Your report has been added to the reports section under your profile, as well as it has been sent to your email and your insurance provider. Thank you for using Saarthi!",
             taskType: TaskType.REPEAT,
             taskMode: TaskMode.SYNC,
           });
@@ -564,7 +564,7 @@ export default function InteractiveAvatar({
         },
         disableIdleTimeout: true,
         avatarName: "Ann_Doctor_Sitting_public",
-        knowledgeBase: `You are a female AI medical examiner, your name is Medstra, you have to conduct specialized health assessments. Your approach varies based on the assessment type: ${preAssessmentData.type
+        knowledgeBase: `You are a female AI medical examiner, your name is Saarthi, you have to conduct specialized health assessments. Your approach varies based on the assessment type: ${preAssessmentData.type
           }.
         You are currently in ${preAssessmentData.language} language.
 
@@ -670,7 +670,7 @@ ${preAssessmentData.medicalReportText ?
         language: preAssessmentData.language,
       });
 
-      console.log(`You are a female AI medical examiner, your name is Medstra, you have to conduct specialized health assessments. Your approach varies based on the assessment type: ${preAssessmentData.type
+      console.log(`You are a female AI medical examiner, your name is Saarthi, you have to conduct specialized health assessments. Your approach varies based on the assessment type: ${preAssessmentData.type
         }.
         You are currently in ${preAssessmentData.language} language.
 
@@ -780,7 +780,7 @@ ${preAssessmentData.medicalReportText ?
 
       // Initial greeting
       await newAvatar.speak({
-        text: "Hello! Introduce yourself as Medstra, I'm here to conduct your health assessment. How are you feeling today?",
+        text: "Hello! Introduce yourself as Saarthi, I'm here to conduct your health assessment. How are you feeling today?",
         taskType: TaskType.TALK,
         taskMode: TaskMode.SYNC,
       });
@@ -1042,7 +1042,7 @@ ${text}`;
             {!jitsiActive ? (
               <Button
                 onClick={() => {
-                  const room = `medstra-${user?.id || Date.now()}`;
+                  const room = `Saarthi-${user?.id || Date.now()}`;
                   setJitsiRoom(room);
                   setJitsiActive(true);
                 }}

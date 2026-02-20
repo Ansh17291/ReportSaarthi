@@ -1,6 +1,6 @@
-# Medstra - AI-Powered Medical Assessments 🏥
+# Saarthi - AI-Powered Medical Assessments 🏥
 
-Medstra is a Next.js application designed to revolutionize the medical assessment process through artificial intelligence. It provides a seamless and efficient platform for insurance underwriting, ensuring accuracy and compliance with healthcare standards. Built by team Astella 🚀
+Saarthi is a Next.js application designed to revolutionize the medical assessment process through artificial intelligence. It provides a seamless and efficient platform for insurance underwriting, ensuring accuracy and compliance with healthcare standards. Built by team Astella 🚀
 
 ## Features 🌟
 
@@ -43,8 +43,8 @@ Make sure you have Bun installed (version 1.0 or later)
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/medstra.git
-   cd medstra
+   git clone https://github.com/yourusername/Saarthi.git
+   cd Saarthi
    ```
 
 2. Install the dependencies:

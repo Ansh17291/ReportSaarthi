@@ -28,7 +28,7 @@ export default function Footer() {
             {/* Logo & Description */}
             <div className="space-y-4">
               <h3 className="font-bold text-3xl bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
-                Medstra
+                Saarthi
               </h3>
               <p className="text-muted-foreground text-lg">
                 Revolutionizing medical examinations through AI-powered
@@ -63,7 +63,7 @@ export default function Footer() {
             </div>
           </div>
 
-          
+
 
           {/* Bottom Bar */}
           <div className="w-full pt-8 mt-8 border-t">
@@ -71,7 +71,7 @@ export default function Footer() {
               <p className="text-sm text-muted-foreground flex items-center gap-2">
                 Crafted with{" "}
                 <Heart className="h-4 w-4 text-red-500 animate-pulse" /> by the
-                Medstra Team
+                Saarthi Team
               </p>
               <p className="text-sm text-muted-foreground">
                 © {new Date().getFullYear()} Virtual Medical Examiner Assistant.
