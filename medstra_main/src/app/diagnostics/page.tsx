@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Brain, Heart, FileText, Phone, Upload, AlertTriangle, CheckCircle2, Wand2, Activity } from "lucide-react";
+import { Brain, Heart, FileText, Phone, Upload, AlertTriangle, CheckCircle2, Wand2, Activity, Droplets } from "lucide-react";
 import { FadeIn } from "@/components/animations/fade-in";
 import Image from "next/image";
 import Link from "next/link";
@@ -61,23 +61,18 @@ export default function DiagnosticsPage() {
         restecg: "", thalach: "", exang: "", oldpeak: "", slope: "", ca: "", thal: ""
     });
 
-
     const handleHeartInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setHeartData({ ...heartData, [e.target.name]: e.target.value });
     };
 
     const runAnalysisWithState = async (category: string) => {
         const formData = new FormData();
-        if (category === 'HEART') {
-            Object.entries(heartData).forEach(([key, val]) => {
-                formData.append(key, val || "0");
-            });
+        if (selectedFile) {
+            formData.append('file', selectedFile);
+            runAnalysis(category.toUpperCase(), formData);
         } else {
-            if (selectedFile) {
-                formData.append('file', selectedFile);
-            }
+            alert("Please select a clinical PDF report first.");
         }
-        runAnalysis(category, formData);
     };
 
     return (
@@ -97,7 +92,7 @@ export default function DiagnosticsPage() {
                                 <Activity className="h-4 w-4" /> Reset Analysis
                             </Button>
                         )}
-                        <Link href="/diagnostics?type=emergency">
+                        <Link href="/diagnostics/assessment">
                             <Button variant="destructive" className="gap-2 animate-pulse h-12 px-6 shadow-lg shadow-red-500/20">
                                 <Phone className="h-4 w-4" />
                                 Emergency Doctor Call
@@ -115,94 +110,74 @@ export default function DiagnosticsPage() {
                     <TabsTrigger value="mri" className="gap-2">
                         <Brain className="h-4 w-4" /> Neuro/MRI
                     </TabsTrigger>
-                    <TabsTrigger value="respiratory" className="gap-2" disabled>
-                        <Activity className="h-4 w-4" /> Respiratory
+                    <TabsTrigger value="kidney" className="gap-2">
+                        <Droplets className="h-4 w-4" /> Kidney
                     </TabsTrigger>
-                    <TabsTrigger value="full" className="gap-2" disabled>
+                    <TabsTrigger value="full" className="gap-2">
                         <FileText className="h-4 w-4" /> Full Body
                     </TabsTrigger>
                 </TabsList>
 
                 {/* Unified Analysis Tab Logic */}
-                {["heart", "mri"].map((tab) => (
+                {["heart", "mri", "kidney", "full"].map((tab) => (
                     <TabsContent key={tab} value={tab}>
                         <div className="grid md:grid-cols-2 gap-8">
                             <Card className="border-2 border-dashed border-primary/20 bg-gradient-to-b from-primary/5 to-background">
                                 <CardHeader>
-                                    <CardTitle className="capitalize">{tab === 'mri' ? 'Neuro-Inference (NLP)' : 'Cardio-Diagnostic Model'}</CardTitle>
+                                    <CardTitle className="capitalize">{
+                                        tab === 'heart' ? 'Cardio Analysis' :
+                                            tab === 'kidney' ? 'Renal Diagnostics' :
+                                                tab === 'full' ? 'Full Body Diagnostic' : 'Neuro-Inference'
+                                    }</CardTitle>
                                     <CardDescription>
-                                        {tab === 'heart' ? 'Enter numerical clinical parameters from patient records.' :
-                                            'Upload an MRI report (PDF) for model inference.'}
+                                        Upload a medical report (PDF) or paste clinical findings for AI analysis.
                                     </CardDescription>
                                 </CardHeader>
                                 <CardContent className="space-y-4">
-                                    {tab === 'heart' ? (
-                                        <div className="grid grid-cols-2 gap-4">
-                                            {[
-                                                { label: "Age (Years)", name: "age", type: "number", placeholder: "e.g. 45" },
-                                                { label: "Sex (1=M, 0=F)", name: "sex", type: "number", placeholder: "1 or 0" },
-                                                { label: "Chest Pain (0-3)", name: "cp", type: "number", placeholder: "Type 0-3" },
-                                                { label: "Resting BPS", name: "trestbps", type: "number", placeholder: "mm Hg" },
-                                                { label: "Cholesterol", name: "chol", type: "number", placeholder: "mg/dl" },
-                                                { label: "Fasting BS (1/0)", name: "fbs", type: "number", placeholder: ">120?" },
-                                                { label: "Rest ECG (0-2)", name: "restecg", type: "number", placeholder: "Outcome" },
-                                                { label: "Max Heart Rate", name: "thalach", type: "number", placeholder: "BPM" },
-                                                { label: "Exer Angina (1/0)", name: "exang", type: "number", placeholder: "Yes=1" },
-                                                { label: "Oldpeak", name: "oldpeak", type: "number", placeholder: "ST Dep." },
-                                                { label: "Peak ST Slope", name: "slope", type: "number", placeholder: "0-2" },
-                                                { label: "Major Vessels", name: "ca", type: "number", placeholder: "0-3" },
-                                                { label: "Thal (1-3)", name: "thal", type: "number", placeholder: "Stress" },
-                                            ].map((field) => (
-                                                <div key={field.name} className="space-y-1">
-                                                    <label className="text-[10px] font-black uppercase text-primary/70 tracking-wider">
-                                                        {field.label}
-                                                    </label>
-                                                    <input
-                                                        type={field.type}
-                                                        name={field.name}
-                                                        value={heartData[field.name]}
-                                                        onChange={handleHeartInputChange}
-                                                        className="w-full h-10 px-3 bg-white/50 border border-primary/20 rounded-lg text-sm focus:ring-2 focus:ring-primary/20 outline-none transition-all"
-                                                        placeholder={field.placeholder}
-                                                    />
-                                                </div>
-                                            ))}
+                                    <div className="space-y-4">
+                                        <div className="p-3 bg-primary/5 rounded-lg border border-primary/10 flex items-start gap-3">
+                                            <AlertTriangle className="h-4 w-4 text-primary mt-1" />
+                                            <p className="text-[10px] text-primary/80 leading-tight">
+                                                OCR Extraction enabled for {tab.toUpperCase()} category. {
+                                                    tab === 'heart' ? 'Specialized RandomForest classification active.' :
+                                                        tab === 'kidney' ? 'Renal function pattern analysis active.' :
+                                                            tab === 'mri' ? 'NLP pattern recognition active.' : 'Generative clinical assessment active.'
+                                                }
+                                            </p>
                                         </div>
-                                    ) : (
-                                        <div className="space-y-4">
-
-                                            <div className="border-2 border-dashed rounded-xl p-4 bg-white/30 text-center">
-                                                <input
-                                                    type="file"
-                                                    id="neuro-pdf-upload"
-                                                    className="hidden"
-                                                    accept=".pdf"
-                                                    onChange={handleFileChange}
-                                                />
-                                                <label htmlFor="neuro-pdf-upload" className="cursor-pointer">
-                                                    <div className="flex flex-col items-center gap-1">
-                                                        <FileText className={`h-8 w-8 ${selectedFile ? 'text-primary' : 'text-muted-foreground'}`} />
-                                                        <span className="text-xs font-medium">
-                                                            {selectedFile ? selectedFile.name : "Select MRI PDF Report"}
-                                                        </span>
+                                        <div className="border-2 border-dashed rounded-xl p-6 bg-white/30 text-center hover:bg-primary/5 transition-colors group">
+                                            <input
+                                                type="file"
+                                                id={`${tab}-pdf-upload`}
+                                                className="hidden"
+                                                accept=".pdf"
+                                                onChange={handleFileChange}
+                                            />
+                                            <label htmlFor={`${tab}-pdf-upload`} className="cursor-pointer block w-full h-full">
+                                                <div className="flex flex-col items-center gap-2">
+                                                    <div className="p-3 bg-white rounded-full shadow-sm group-hover:scale-110 transition-transform">
+                                                        <FileText className={`h-10 w-10 ${selectedFile ? 'text-primary' : 'text-muted-foreground'}`} />
                                                     </div>
-                                                </label>
-                                            </div>
-
+                                                    <span className="text-sm font-semibold tracking-tight">
+                                                        {selectedFile ? selectedFile.name : "Select Clinical PDF Report"}
+                                                    </span>
+                                                    <p className="text-[10px] text-muted-foreground">PDF reports up to 10MB supported</p>
+                                                </div>
+                                            </label>
                                         </div>
-                                    )}
+                                    </div>
                                     <Button
-                                        className="w-full h-12 text-lg font-bold shadow-xl shadow-primary/20 mt-4 active:scale-[0.98] transition-transform"
-                                        disabled={loading || (tab !== 'heart' && tab !== 'mri') || (tab === 'mri' && !selectedFile)}
-                                        onClick={() => runAnalysisWithState(tab === 'mri' ? 'NEURO' : 'HEART')}
+                                        className="w-full h-12 text-lg font-bold shadow-xl shadow-primary/20 mt-4 active:scale-[0.98] transition-all"
+                                        disabled={loading || !selectedFile}
+                                        onClick={() => runAnalysisWithState(tab === 'mri' ? 'NEURO' : tab)}
                                     >
                                         {loading ? (
                                             <>
                                                 <div className="h-4 w-4 border-2 border-t-transparent border-white rounded-full animate-spin mr-2" />
-                                                Processing Model...
+                                                Analyzing Report...
                                             </>
                                         ) : (
-                                            `Run ${tab.toUpperCase()} Inference`
+                                            `Inference ${tab.toUpperCase()} Data`
                                         )}
                                     </Button>
                                 </CardContent>
@@ -343,7 +318,7 @@ export default function DiagnosticsPage() {
                             <Button variant="secondary" size="lg" className="rounded-full px-8">
                                 Schedule Later
                             </Button>
-                            <Link href="/diagnostics?type=video">
+                            <Link href="/assessment?type=video">
                                 <Button size="lg" className="rounded-full px-8 bg-white text-primary hover:bg-white/90">
                                     Connect Now
                                 </Button>
