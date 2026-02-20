@@ -405,7 +405,7 @@ export default function InteractiveAvatar({
   };
 }) {
   console.log(preAssessmentData);
-  
+
   const [isLoadingSession, setIsLoadingSession] = useState(false);
   const [stream, setStream] = useState<MediaStream>();
   const [avatar, setAvatar] = useState<StreamingAvatar | null>(null);
@@ -421,6 +421,8 @@ export default function InteractiveAvatar({
   };
 
   const [messageStream, setMessageStream] = useState<Message[]>([]);
+  const [jitsiActive, setJitsiActive] = useState(false);
+  const [jitsiRoom, setJitsiRoom] = useState<string | null>(null);
 
   async function fetchAccessToken() {
     const response = await fetch("/api/get-access-token", { method: "POST" });
@@ -562,9 +564,8 @@ export default function InteractiveAvatar({
         },
         disableIdleTimeout: true,
         avatarName: "Ann_Doctor_Sitting_public",
-        knowledgeBase: `You are a female AI medical examiner, your name is Medstra, you have to conduct specialized health assessments. Your approach varies based on the assessment type: ${
-          preAssessmentData.type
-        }.
+        knowledgeBase: `You are a female AI medical examiner, your name is Medstra, you have to conduct specialized health assessments. Your approach varies based on the assessment type: ${preAssessmentData.type
+          }.
         You are currently in ${preAssessmentData.language} language.
 
 Assessment Types and Protocols:
@@ -613,8 +614,8 @@ Patient Profile:
 - Height: ${preAssessmentData.height}cm
 - Weight: ${preAssessmentData.weight}kg
 - BMI: ${(
-          preAssessmentData.weight / Math.pow(preAssessmentData.height / 100, 2)
-        ).toFixed(1)}
+            preAssessmentData.weight / Math.pow(preAssessmentData.height / 100, 2)
+          ).toFixed(1)}
 - Smoking Status: ${preAssessmentData.smoker ? "Smoker" : "Non-smoker"}
 - Exercise Frequency: ${preAssessmentData.exerciseFrequency}
 
@@ -663,14 +664,13 @@ ${preAssessmentData.medicalReportText ? `- Consider historical medical data in y
 - Do not mention the \b tag in speech - it's only used as a signal
 
 Initial Greeting:
-${preAssessmentData.medicalReportText ? 
-  `Start with a professional greeting, acknowledge that you've reviewed their medical history, introduce the specific type of assessment, and explain the expected duration and process.` :
-  `Start with a professional greeting, introduce the specific type of assessment, and explain the expected duration and process.`}`,
+${preAssessmentData.medicalReportText ?
+            `Start with a professional greeting, acknowledge that you've reviewed their medical history, introduce the specific type of assessment, and explain the expected duration and process.` :
+            `Start with a professional greeting, introduce the specific type of assessment, and explain the expected duration and process.`}`,
         language: preAssessmentData.language,
       });
 
-      console.log(`You are a female AI medical examiner, your name is Medstra, you have to conduct specialized health assessments. Your approach varies based on the assessment type: ${
-          preAssessmentData.type
+      console.log(`You are a female AI medical examiner, your name is Medstra, you have to conduct specialized health assessments. Your approach varies based on the assessment type: ${preAssessmentData.type
         }.
         You are currently in ${preAssessmentData.language} language.
 
@@ -770,9 +770,9 @@ ${preAssessmentData.medicalReportText ? `- Consider historical medical data in y
 - Do not mention the \b tag in speech - it's only used as a signal
 
 Initial Greeting:
-${preAssessmentData.medicalReportText ? 
-  `Start with a professional greeting, acknowledge that you've reviewed their medical history, introduce the specific type of assessment, and explain the expected duration and process.` :
-  `Start with a professional greeting, introduce the specific type of assessment, and explain the expected duration and process.`}`);
+${preAssessmentData.medicalReportText ?
+          `Start with a professional greeting, acknowledge that you've reviewed their medical history, introduce the specific type of assessment, and explain the expected duration and process.` :
+          `Start with a professional greeting, introduce the specific type of assessment, and explain the expected duration and process.`}`);
 
       await newAvatar.startVoiceChat({
         useSilencePrompt: true, // Start voice chat with silence prompts
@@ -786,6 +786,30 @@ ${preAssessmentData.medicalReportText ?
       });
     } catch (error) {
       console.error("Error starting session:", error);
+      // If the API returned a response body, log it for easier debugging
+      try {
+        const anyErr = error as any;
+        if (anyErr && anyErr.responseText) {
+          console.error("HeyGen API response:", anyErr.responseText);
+          try {
+            const parsed = JSON.parse(anyErr.responseText);
+            const errMsg = parsed?.message || anyErr.responseText;
+            const errCode = parsed?.code;
+            setMessageStream((prev) => [
+              ...prev,
+              {
+                sender: "System",
+                text: `HeyGen API error${errCode ? ` (code ${errCode})` : ""}: ${errMsg}`,
+              },
+            ]);
+          } catch (e) {
+            setMessageStream((prev) => [
+              ...prev,
+              { sender: "System", text: `HeyGen API error: ${anyErr.responseText}` },
+            ]);
+          }
+        }
+      } catch (e) { }
     } finally {
       setIsLoadingSession(false);
     }
@@ -967,13 +991,26 @@ ${text}`;
     <Card className="overflow-hidden">
       <div className="flex flex-col">
         <div className="relative aspect-video bg-muted">
-          {stream && (
-            <video
-              ref={mediaStream}
-              autoPlay
-              playsInline
-              className="w-full h-full object-cover"
+          {jitsiActive && jitsiRoom ? (
+            <iframe
+              title="Jitsi Meeting"
+              src={`https://meet.jit.si/${encodeURIComponent(
+                jitsiRoom
+              )}#userInfo.displayName=${encodeURIComponent(
+                user?.firstName || "User"
+              )}`}
+              allow="camera; microphone; fullscreen; display-capture"
+              style={{ width: "100%", height: "100%", border: 0 }}
             />
+          ) : (
+            stream && (
+              <video
+                ref={mediaStream}
+                autoPlay
+                playsInline
+                className="w-full h-full object-cover"
+              />
+            )
           )}
           {isLoadingSession && (
             <div className="absolute inset-0 flex items-center justify-center bg-background/50 backdrop-blur-sm">
@@ -1001,6 +1038,29 @@ ${text}`;
                 End Session
               </Button>
             )}
+            <div className="w-2" />
+            {!jitsiActive ? (
+              <Button
+                onClick={() => {
+                  const room = `medstra-${user?.id || Date.now()}`;
+                  setJitsiRoom(room);
+                  setJitsiActive(true);
+                }}
+                variant="outline"
+              >
+                Start Jitsi Call
+              </Button>
+            ) : (
+              <Button
+                onClick={() => {
+                  setJitsiActive(false);
+                  setJitsiRoom(null);
+                }}
+                variant="destructive"
+              >
+                End Jitsi Call
+              </Button>
+            )}
           </div>
         </div>
 
@@ -1010,11 +1070,10 @@ ${text}`;
             {messageStream.map((msg, index) => (
               <div
                 key={index}
-                className={`text-sm ${
-                  msg.sender === "AI" ? "text-gray-700" : 
+                className={`text-sm ${msg.sender === "AI" ? "text-gray-700" :
                   msg.sender === "System" ? "text-orange-600" :
-                  "text-blue-600"
-                }`}
+                    "text-blue-600"
+                  }`}
               >
                 <strong>{msg.sender}: </strong>
                 {msg.text}
@@ -1308,7 +1367,7 @@ class StreamingAvatar {
 
     try {
       await room.prepareConnection(sessionInfo.url, sessionInfo.access_token);
-    } catch (error) {}
+    } catch (error) { }
 
     await this.startSession();
 
@@ -1406,7 +1465,7 @@ class StreamingAvatar {
       if (this.webSocket) {
         this.webSocket.close();
       }
-    } catch (e) {}
+    } catch (e) { }
   }
 
   public async newSession(
@@ -1518,6 +1577,7 @@ class StreamingAvatar {
 
       if (!response.ok) {
         const errorText = await response.text();
+        console.error(`[StreamingAvatar.request] ${path} returned ${response.status}:`, errorText);
         throw new APIError(
           `API request failed with status ${response.status}`,
           response.status,
@@ -1540,11 +1600,9 @@ class StreamingAvatar {
     return `${this.basePath}${endpoint}`;
   }
   private async connectWebSocket(requestData: { useSilencePrompt: boolean }) {
-    let websocketUrl = `wss://${
-      new URL(this.basePath).hostname
-    }/v1/ws/streaming.chat?session_id=${this.sessionId}&session_token=${
-      this.token
-    }&silence_response=${requestData.useSilencePrompt}`;
+    let websocketUrl = `wss://${new URL(this.basePath).hostname
+      }/v1/ws/streaming.chat?session_id=${this.sessionId}&session_token=${this.token
+      }&silence_response=${requestData.useSilencePrompt}`;
     if (this.language) {
       websocketUrl += `&stt_language=${this.language}`;
     }
