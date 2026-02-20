@@ -60,7 +60,7 @@ export default function DiagnosticsPage() {
         age: "", sex: "", cp: "", trestbps: "", chol: "", fbs: "",
         restecg: "", thalach: "", exang: "", oldpeak: "", slope: "", ca: "", thal: ""
     });
-    const [findings, setFindings] = useState("");
+
 
     const handleHeartInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setHeartData({ ...heartData, [e.target.name]: e.target.value });
@@ -75,8 +75,6 @@ export default function DiagnosticsPage() {
         } else {
             if (selectedFile) {
                 formData.append('file', selectedFile);
-            } else {
-                formData.append('findings', findings || "");
             }
         }
         runAnalysis(category, formData);
@@ -95,7 +93,6 @@ export default function DiagnosticsPage() {
                             <Button onClick={() => {
                                 setResult(null);
                                 setSelectedFile(null);
-                                setFindings("");
                             }} variant="outline" className="gap-2">
                                 <Activity className="h-4 w-4" /> Reset Analysis
                             </Button>
@@ -135,7 +132,7 @@ export default function DiagnosticsPage() {
                                     <CardTitle className="capitalize">{tab === 'mri' ? 'Neuro-Inference (NLP)' : 'Cardio-Diagnostic Model'}</CardTitle>
                                     <CardDescription>
                                         {tab === 'heart' ? 'Enter numerical clinical parameters from patient records.' :
-                                            'Upload an MRI report (PDF) or paste clinical findings for analysis.'}
+                                            'Upload an MRI report (PDF) for model inference.'}
                                     </CardDescription>
                                 </CardHeader>
                                 <CardContent className="space-y-4">
@@ -173,12 +170,7 @@ export default function DiagnosticsPage() {
                                         </div>
                                     ) : (
                                         <div className="space-y-4">
-                                            <div className="p-3 bg-blue-50/50 rounded-lg border border-blue-100 flex items-start gap-3">
-                                                <AlertTriangle className="h-4 w-4 text-blue-500 mt-1" />
-                                                <p className="text-[10px] text-blue-700 leading-tight">
-                                                    NLP model identifies biomarkers from text or PDFs like: <b>glioblastoma, frontal, meningioma</b>.
-                                                </p>
-                                            </div>
+
                                             <div className="border-2 border-dashed rounded-xl p-4 bg-white/30 text-center">
                                                 <input
                                                     type="file"
@@ -196,26 +188,12 @@ export default function DiagnosticsPage() {
                                                     </div>
                                                 </label>
                                             </div>
-                                            <div className="relative">
-                                                <div className="absolute inset-0 flex items-center">
-                                                    <span className="w-full border-t border-primary/10" />
-                                                </div>
-                                                <div className="relative flex justify-center text-[10px] uppercase">
-                                                    <span className="bg-background px-2 text-muted-foreground font-bold">Or Paste Text</span>
-                                                </div>
-                                            </div>
-                                            <textarea
-                                                value={findings}
-                                                onChange={(e) => setFindings(e.target.value)}
-                                                className="w-full h-32 p-4 bg-white/50 border border-primary/20 rounded-xl text-sm focus:ring-2 focus:ring-primary/20 outline-none transition-all resize-none"
-                                                placeholder="Paste MRI clinical findings here..."
-                                                disabled={!!selectedFile}
-                                            />
+
                                         </div>
                                     )}
                                     <Button
                                         className="w-full h-12 text-lg font-bold shadow-xl shadow-primary/20 mt-4 active:scale-[0.98] transition-transform"
-                                        disabled={loading || (tab !== 'heart' && tab !== 'mri')}
+                                        disabled={loading || (tab !== 'heart' && tab !== 'mri') || (tab === 'mri' && !selectedFile)}
                                         onClick={() => runAnalysisWithState(tab === 'mri' ? 'NEURO' : 'HEART')}
                                     >
                                         {loading ? (
