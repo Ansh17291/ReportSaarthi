@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight, CheckCircle2, Shield, Stethoscope } from "lucide-react";
+import { ArrowRight, Brain, CheckCircle2, Shield, Stethoscope } from "lucide-react";
 import { FadeIn } from "@/components/animations/fade-in";
 import { SlideIn } from "@/components/animations/slide-in";
 import { useLottie } from "lottie-react";
@@ -26,23 +26,21 @@ export default function Home() {
           <div className="flex flex-col md:flex-row items-center justify-between gap-12">
             <SlideIn className="flex-1 space-y-6 max-w-2xl">
               <h1 className="text-4xl md:text-6xl font-bold tracking-tight bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
-                Medstra Medical Assistant
+                Saarthi Medical Assistant
               </h1>
               <p className="text-xl text-muted-foreground leading-relaxed">
-                Experience the future of medical assessments with our AI-powered
-                platform. Fast, accurate, and convenient insurance underwriting
-                process.
-                
+                Experience the next generation of medical diagnostics with our AI-powered
+                platform. Instant MRI analysis, multi-disease risk assessment, and expert consultations.
               </p>
               <div className="flex gap-4 pt-4">
                 <Button asChild size="lg" className="group">
-                  <Link href="/assessment/select" className="gap-2">
-                    Start Assessment
+                  <Link href="/diagnostics" className="gap-2">
+                    Start Diagnostics
                     <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                   </Link>
                 </Button>
                 <Button variant="outline" size="lg" asChild>
-                  <Link href="/how-it-works">Learn More</Link>
+                  <Link href="/how-it-works">How it Works</Link>
                 </Button>
               </div>
               <div className="flex gap-8 pt-8">
@@ -130,22 +128,22 @@ export default function Home() {
 
 const features = [
   {
+    title: "AI Diagnostics Lab",
+    description:
+      "Upload MRI scans or clinical reports for instant AI-powered disease detection and Grad-CAM visualization.",
+    icon: <Brain className="h-12 w-12 text-primary" />,
+  },
+  {
     title: "Smart Assessment",
     description:
       "Complete your health assessment through natural conversation with our AI assistant",
     icon: <Stethoscope className="h-12 w-12 text-primary" />,
   },
   {
-    title: "Real-time Analysis",
+    title: "Instant AI Insights",
     description:
-      "Advanced AI algorithms process your responses instantly for accurate evaluation",
-    icon: <Shield className="h-12 w-12 text-primary" />,
-  },
-  {
-    title: "Secure Reports",
-    description:
-      "Get comprehensive reports with bank-level security and HIPAA compliance",
-    icon: <Shield className="h-12 w-12 text-primary" />,
+      "Receive personalized medical suggestions powered by Gemini AI immediately after analysis.",
+    icon: <CheckCircle2 className="h-12 w-12 text-primary" />,
   },
 ];
 
