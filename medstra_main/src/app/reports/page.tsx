@@ -16,7 +16,7 @@ const ReportsPage = () => {
   useEffect(() => {
     const fetchReports = async () => {
       if (!user) return;
-      
+
       setLoading(true);
       try {
         const response = await fetch(`/api/reports?userId=${user.id}`);
@@ -56,7 +56,7 @@ const ReportsPage = () => {
             </p>
           </div>
           <Button asChild>
-            <Link href="/assessment/select">New Assessment</Link>
+            <Link href="/diagnostics">New Diagnostics</Link>
           </Button>
         </div>
 

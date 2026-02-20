@@ -96,8 +96,8 @@ export default function HowItWorksPage() {
           <div className="text-center space-y-6">
             <h2 className="text-2xl font-bold">Ready to Get Started?</h2>
             <Button asChild size="lg">
-              <Link href="/assessment/select" className="gap-2">
-                Start Assessment
+              <Link href="/diagnostics" className="gap-2">
+                Start Diagnostics
                 <ArrowRight className="h-4 w-4" />
               </Link>
             </Button>

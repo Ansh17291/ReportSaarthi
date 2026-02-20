@@ -67,7 +67,7 @@ export default function DashboardPage() {
           </FadeIn>
           <SlideIn direction="left">
             <Button asChild>
-              <Link href="/assessment" className="gap-2">
+              <Link href="/diagnostics" className="gap-2">
                 <Plus className="h-4 w-4" />
                 New Assessment
               </Link>
@@ -178,7 +178,7 @@ export default function DashboardPage() {
                       )}
                     </div>
                     <Button variant="ghost" size="icon" asChild>
-                      <Link href={`/assessment/${assessment.id}`}>
+                      <Link href={`/diagnostics/${assessment.id}`}>
                         <ArrowRight className="h-4 w-4" />
                       </Link>
                     </Button>
@@ -212,7 +212,7 @@ export default function DashboardPage() {
                     </div>
                   </div>
                   <Button asChild>
-                    <Link href="/assessment">Start Assessment</Link>
+                    <Link href="/diagnostics">Start Diagnostics</Link>
                   </Button>
                 </div>
               ))}

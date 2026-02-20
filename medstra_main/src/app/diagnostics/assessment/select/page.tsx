@@ -73,7 +73,7 @@ export default function SelectAssessmentPage() {
         <div className="grid md:grid-cols-2 gap-6">
           {assessmentTypes.map((type, i) => (
             <SlideIn key={type.id} delay={i * 0.1}>
-              <Link href={`/assessment?type=${type.id}`}>
+              <Link href={`/diagnostics/assessment?type=${type.id}`}>
                 <Card className="group cursor-pointer transition-all hover:shadow-lg hover:border-primary">
                   <CardHeader>
                     <div className="flex items-start justify-between">
@@ -134,7 +134,7 @@ export default function SelectAssessmentPage() {
         {/* Quick Assessment Option */}
         <div className="text-center pt-8">
           <Button variant="outline" asChild>
-            <Link href="/assessment/quick" className="gap-2">
+            <Link href="/diagnostics/quick" className="gap-2">
               Start Quick Assessment
               <Clock className="h-4 w-4" />
             </Link>

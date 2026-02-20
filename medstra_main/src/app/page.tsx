@@ -115,7 +115,7 @@ export default function Home() {
             who trust our AI-powered medical examination platform.
           </p>
           <Button size="lg" variant="secondary" asChild className="group">
-            <Link href="/assessment/select" className="gap-2">
+            <Link href="/diagnostics" className="gap-2">
               Start Your Assessment
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
             </Link>

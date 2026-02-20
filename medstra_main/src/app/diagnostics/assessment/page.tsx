@@ -50,7 +50,7 @@ export default function AssessmentPage() {
   useEffect(() => {
     // If no assessment type is selected, redirect to select page
     if (!assessmentType) {
-      router.push("/assessment/select");
+      router.push("/diagnostics/assessment/select");
     }
   }, [assessmentType, router]);
 

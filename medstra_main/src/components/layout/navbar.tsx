@@ -126,7 +126,7 @@ export function Navbar() {
                   Sign Up
                 </Button>
                 <Button asChild>
-                  <Link href="/assessment/select">Start Assessment</Link>
+                  <Link href="/diagnostics">Start Diagnostics</Link>
                 </Button>
               </>
             ) : (
@@ -139,7 +139,7 @@ export function Navbar() {
                     </Button>
                   ))}
                   <Button asChild>
-                    <Link href="/assessment/select">Start Assessment</Link>
+                    <Link href="/diagnostics">Start Diagnostics</Link>
                   </Button>
                   <UserButton
                     afterSignOutUrl="/"
@@ -204,7 +204,7 @@ export function Navbar() {
                   </Button>
                   <Button onClick={handleSignUp}>Sign Up</Button>
                   <Button asChild className="w-full">
-                    <Link href="/assessment/select">Start Assessment</Link>
+                    <Link href="/diagnostics">Start Diagnostics</Link>
                   </Button>
                 </>
               ) : (
@@ -214,7 +214,7 @@ export function Navbar() {
                     <UserButton afterSignOutUrl="/" />
                   </div>
                   <Button asChild className="w-full">
-                    <Link href="/assessment/select">Start Assessment</Link>
+                    <Link href="/diagnostics">Start Diagnostics</Link>
                   </Button>
                 </>
               )}

@@ -97,7 +97,7 @@ export default function DiagnosticsPage() {
                                 <Activity className="h-4 w-4" /> Reset Analysis
                             </Button>
                         )}
-                        <Link href="/assessment?type=emergency">
+                        <Link href="/diagnostics?type=emergency">
                             <Button variant="destructive" className="gap-2 animate-pulse h-12 px-6 shadow-lg shadow-red-500/20">
                                 <Phone className="h-4 w-4" />
                                 Emergency Doctor Call
@@ -343,7 +343,7 @@ export default function DiagnosticsPage() {
                             <Button variant="secondary" size="lg" className="rounded-full px-8">
                                 Schedule Later
                             </Button>
-                            <Link href="/assessment?type=video">
+                            <Link href="/diagnostics?type=video">
                                 <Button size="lg" className="rounded-full px-8 bg-white text-primary hover:bg-white/90">
                                     Connect Now
                                 </Button>

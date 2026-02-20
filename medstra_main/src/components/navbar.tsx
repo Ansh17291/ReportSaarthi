@@ -16,7 +16,7 @@ export default function Navbar() {
               <Link href="/dashboard">Dashboard</Link>
             </Button>
             <Button variant="ghost" asChild>
-              <Link href="/assessment">Start Assessment</Link>
+              <Link href="/diagnostics">Start Diagnostics</Link>
             </Button>
             <ModeToggle />
           </div>
