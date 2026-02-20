@@ -30,7 +30,7 @@ export function VideoAssessment({ onBack, onNext, assessmentType, preAssessmentD
   const [isAssessmentStarted, setIsAssessmentStarted] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [isAvatarVisible, setIsAvatarVisible] = useState(false);
-  
+
   useEffect(() => {
     handleStartAssessment();
   }, []);
