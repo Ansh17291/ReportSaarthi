@@ -23,6 +23,7 @@ const navigation = [
 const userNavigation = [
   { name: "Profile", href: "/profile" },
   { name: "Reports", href: "/reports" },
+  { name: "Doctor Dashboard", href: "/doctor/dashboard" },
 ];
 
 export function Navbar() {
@@ -119,11 +120,11 @@ export function Navbar() {
             {!isSignedIn ? (
               <>
                 <ModeToggle />
-                <Button variant="ghost" onClick={handleSignIn}>
-                  Sign In
+                <Button variant="ghost" asChild>
+                  <Link href="/sign-in">Patient Portal</Link>
                 </Button>
-                <Button variant="outline" onClick={handleSignUp}>
-                  Sign Up
+                <Button variant="outline" asChild>
+                  <Link href="/doctor/sign-in">Doctor Portal</Link>
                 </Button>
                 <Button asChild>
                   <Link href="/diagnostics">Start Diagnostics</Link>
@@ -138,6 +139,9 @@ export function Navbar() {
                       <Link href={item.href}>{item.name}</Link>
                     </Button>
                   ))}
+                  <Button variant="ghost" asChild>
+                    <Link href="/doctor/sign-in">Doctor Portal</Link>
+                  </Button>
                   <Button asChild>
                     <Link href="/diagnostics">Start Diagnostics</Link>
                   </Button>
@@ -199,10 +203,12 @@ export function Navbar() {
             <div className="grid gap-4 pt-4 border-t">
               {!isSignedIn ? (
                 <>
-                  <Button variant="outline" onClick={handleSignIn}>
-                    Sign In
+                  <Button variant="outline" asChild className="w-full">
+                    <Link href="/sign-in">Patient Portal</Link>
                   </Button>
-                  <Button onClick={handleSignUp}>Sign Up</Button>
+                  <Button variant="outline" asChild className="w-full">
+                    <Link href="/doctor/sign-in">Doctor Portal</Link>
+                  </Button>
                   <Button asChild className="w-full">
                     <Link href="/diagnostics">Start Diagnostics</Link>
                   </Button>
@@ -213,6 +219,9 @@ export function Navbar() {
                     <span className="text-sm font-medium">Account</span>
                     <UserButton afterSignOutUrl="/" />
                   </div>
+                  <Button variant="outline" asChild className="w-full">
+                    <Link href="/doctor/sign-in">Doctor Portal</Link>
+                  </Button>
                   <Button asChild className="w-full">
                     <Link href="/diagnostics">Start Diagnostics</Link>
                   </Button>

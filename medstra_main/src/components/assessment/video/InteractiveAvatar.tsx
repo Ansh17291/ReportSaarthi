@@ -423,6 +423,7 @@ export default function InteractiveAvatar({
   const [messageStream, setMessageStream] = useState<Message[]>([]);
   const [jitsiActive, setJitsiActive] = useState(false);
   const [jitsiRoom, setJitsiRoom] = useState<string | null>(null);
+  const [copied, setCopied] = useState(false);
 
   async function fetchAccessToken() {
     const response = await fetch("/api/get-access-token", { method: "POST" });
@@ -1059,6 +1060,36 @@ ${text}`;
                 variant="destructive"
               >
                 End Jitsi Call
+              </Button>
+            )}
+            <div className="w-2" />
+            {jitsiActive && jitsiRoom && (
+              <Button
+                onClick={async () => {
+                  const joinLink = `${window.location.origin}/doctor/room/${jitsiRoom}`;
+
+                  // Save call to doctor dashboard
+                  try {
+                    await fetch("/api/doctor/calls", {
+                      method: "POST",
+                      headers: { "Content-Type": "application/json" },
+                      body: JSON.stringify({
+                        patientName: user?.fullName || "Anonymous Patient",
+                        roomId: jitsiRoom,
+                        joinLink: joinLink,
+                      }),
+                    });
+                  } catch (err) {
+                    console.error("Failed to share call:", err);
+                  }
+
+                  navigator.clipboard.writeText(joinLink);
+                  setCopied(true);
+                  setTimeout(() => setCopied(false), 2000);
+                }}
+                variant="secondary"
+              >
+                {copied ? "Link Shared & Copied!" : "Share with Doctor"}
               </Button>
             )}
           </div>

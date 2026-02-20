@@ -32,15 +32,15 @@ export default function Home() {
                 Experience the next generation of medical diagnostics with our AI-powered
                 platform. Instant MRI analysis, multi-disease risk assessment, and expert consultations.
               </p>
-              <div className="flex gap-4 pt-4">
-                <Button asChild size="lg" className="group">
-                  <Link href="/diagnostics" className="gap-2">
-                    Start Diagnostics
+              <div className="flex flex-wrap gap-4 pt-4">
+                <Button asChild size="lg" className="px-8 group">
+                  <Link href="/sign-in" className="gap-2">
+                    Patient Portal
                     <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                   </Link>
                 </Button>
-                <Button variant="outline" size="lg" asChild>
-                  <Link href="/how-it-works">How it Works</Link>
+                <Button variant="outline" size="lg" asChild className="px-8">
+                  <Link href="/doctor/sign-in">Doctor Portal</Link>
                 </Button>
               </div>
               <div className="flex gap-8 pt-8">
@@ -114,12 +114,17 @@ export default function Home() {
             Join thousands of healthcare professionals and insurance providers
             who trust our AI-powered medical examination platform.
           </p>
-          <Button size="lg" variant="secondary" asChild className="group">
-            <Link href="/diagnostics" className="gap-2">
-              Start Your Assessment
-              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-            </Link>
-          </Button>
+          <div className="flex flex-wrap justify-center gap-4">
+            <Button size="lg" variant="secondary" asChild className="group px-8">
+              <Link href="/sign-in" className="gap-2">
+                Patient Portal
+                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+              </Link>
+            </Button>
+            <Button size="lg" variant="outline" asChild className="px-8 bg-transparent border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary">
+              <Link href="/doctor/sign-in">Doctor Portal</Link>
+            </Button>
+          </div>
         </FadeIn>
       </section>
     </div>

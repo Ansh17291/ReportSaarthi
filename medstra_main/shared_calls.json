@@ -1,0 +1,18 @@
+[
+  {
+    "patientName": "sudhanshu nijap",
+    "roomId": "Saarthi-user_39vuvTPOC5xCbSn7QndwOPK4ieX",
+    "joinLink": "http://localhost:3001/doctor/room/Saarthi-user_39vuvTPOC5xCbSn7QndwOPK4ieX",
+    "id": "1771591520441",
+    "timestamp": "2026-02-20T12:45:20.441Z",
+    "status": "active"
+  },
+  {
+    "patientName": "sudhanshu nijap",
+    "roomId": "Saarthi-user_39vuvTPOC5xCbSn7QndwOPK4ieX",
+    "joinLink": "http://localhost:3001/doctor/room/Saarthi-user_39vuvTPOC5xCbSn7QndwOPK4ieX",
+    "id": "1771591606804",
+    "timestamp": "2026-02-20T12:46:46.804Z",
+    "status": "active"
+  }
+]
